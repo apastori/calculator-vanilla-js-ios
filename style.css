@@ -2,6 +2,7 @@
     --iphone-width: 563px;
     --iphone-height: 1218px;
     --ios-font: "Helvetica Neue", sans-serif;
+    --calc-display-size: 110px;
 }
 
 *,
@@ -31,6 +32,7 @@ body {
     padding-right: 20px;
     padding-left: 20px;
     color: #FFFFFF;
+    position: relative;
 }
 
 .ios-top {
@@ -38,6 +40,70 @@ body {
     padding-bottom: 0;
     padding-right: 20px;
     padding-left: 20px;
+    height: 250px;
     display: flex;
     justify-content: space-between;
+}
+
+.display {
+    font-size: 130px;
+    font-weight: 300;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    height: 158px;
+    text-align: right;
+}
+
+.calc-buttons {
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+}
+
+.calc-button {
+    height: var(--calc-display-size);
+    width: var(--calc-display-size);
+    font-size: 45px;
+    background-color: #333;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    curson: pointer;
+    transition: filter 0.3s;
+}
+
+.calc-button:active, 
+.calc-button:focus {
+    filter: brightness(120%)
+}
+
+.calc-button.function {
+    color: #000000;
+    background-color: #A5A5A5;
+}
+
+.calc-button.operator {
+    background-color: #F1A33C;
+}
+
+.calc-button.number.zero {
+    width: 250px;
+    border-radius: 55px;
+    justify-content: flex-start;
+    padding-left: 43px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.ios-bottom {
+    width: 200px;
+    height: 5px;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
 }
