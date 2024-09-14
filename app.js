@@ -96,11 +96,26 @@ for (let i = 0; i < numbersButtons.length; i++) {
     })
 }
 
-//Add Event Listener to Decima
+//Add Event Listener to Decimal
 decimalButton.addEventListener("click", () => {
     const currentDisplayValue = getValueDisplayStr();
     if (currentDisplayValue.includes(".")) return;
     setStrAsValue(currentDisplayValue + ".");
+});
+
+//Add Event Listener to function Buttons
+allClearButton.addEventListener("click", () => {
+   setStrAsValue("0"); 
+})
+
+plusMinusButton.addEventListener("click", () => {
+    const currentValueNumber = getValueDisplayNum();
+    setStrAsValue(String(currentValueNumber * -1));
+});
+
+percentageButton.addEventListener("click", () => {
+    const currentValueNumber = getValueDisplayNum();
+    setStrAsValue(String(currentValueNumber / 100));
 });
 
 
