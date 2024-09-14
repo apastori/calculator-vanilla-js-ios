@@ -55,6 +55,9 @@ const numbersButtons = [
     number9Button
 ];
 
+let stringBeforeOperation = null;
+let operationMemory = null;
+
 const getValueDisplayStr = () => {
    const currentDisplayValue = displayCalculator.textContent;
    // Other way to turn String currentDisplayValue.split(",").join(""); 
@@ -80,7 +83,8 @@ const setStrAsValue = (valueString) => {
 
 const handleNumberClick = (numberString) => {
     const currentDisplayValue = getValueDisplayStr();
-    //if (currentDisplayValue.length === 6) return;
+    // Stop adding numbers to prevent overflowing
+    if (currentDisplayValue.length === 6) return;
     if (!parseInt(currentDisplayValue)) {
         setStrAsValue(numberString);
     } else {
@@ -105,8 +109,22 @@ decimalButton.addEventListener("click", () => {
 
 //Add Event Listener to function Buttons
 allClearButton.addEventListener("click", () => {
-   setStrAsValue("0"); 
+    allClear();
 })
+
+const displayToZero = () => {
+    setStrAsValue("0");
+}
+
+const allClear = () => {
+    displayToZero();
+    clearMemoryCalculator();
+}
+
+const clearMemoryCalculator = () => {
+    stringBeforeOperation = null;
+    operationMemory = null;
+}
 
 plusMinusButton.addEventListener("click", () => {
     const currentValueNumber = getValueDisplayNum();
@@ -116,6 +134,65 @@ plusMinusButton.addEventListener("click", () => {
 percentageButton.addEventListener("click", () => {
     const currentValueNumber = getValueDisplayNum();
     setStrAsValue(String(currentValueNumber / 100));
+    clearMemoryCalculator();
 });
 
+//Add Event Listener to Operator Functions
+additionButton.addEventListener("click", () => {
+    handleOperationClick("addition");
+});
+
+substractionButton.addEventListener("click", () => {
+    handleOperationClick("substraction");
+});
+
+multiplicationButton.addEventListener("click", () => {
+    handleOperationClick("multiplication");
+});
+
+divisionButton.addEventListener("click", () => {
+    handleNumberClick("division");
+});
+
+equalButton.addEventListener("click", () => {
+    if (!stringBeforeOperation) return;
+    setStrAsValue(getResultOperationStr());
+    clearMemoryCalculator();    
+});
+
+//Operations Object
+const operationsObject = {
+    "addition": (num1, num2) => {
+        return num1 + num2;
+    },
+    "substraction": (num1, num2) => {
+        return num1 - num2;
+    },
+    "multiplication": (num1, num2) => {
+        return num1 * num2;
+    },
+    "division": (num1, num2) => {
+        return num1 / num2;
+    }
+};
+
+const handleOperationClick = (operation) => {
+    const currentValueString = getValueDisplayStr();
+    if (!stringBeforeOperation) {
+        stringBeforeOperation = currentValueString;
+        operationMemory = operation;
+        displayToZero();
+        return;
+    }
+    stringBeforeOperation = getResultOperationStr();
+    operationMemory = operation;
+    displayToZero();
+}
+
+const getResultOperationStr = () => {
+    const currentValueNumber = getValueDisplayNum();
+    const valueNumberInMemory = parseFloat(stringBeforeOperation);
+    let newValueNum = operationsObject[operationMemory](valueNumberInMemory, currentValueNumber);
+    return newValueNum.toString();
+}
 
