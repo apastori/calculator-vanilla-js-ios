@@ -66,11 +66,16 @@ const getValueDisplayNum = () => {
 }
 
 const setStrAsValue = (valueString) => {
-    if (valueString.charAt(valueString.length - 1)) {
+    if (valueString.charAt(valueString.length - 1) === ".") {
         displayCalculator.textContent += ".";
         return;
     }
-    displayCalculator.textContent = parseFloat(valueString).toLocaleString();
+    const [integerPartNumStr, decimalPartNumStr] = valueString.split(".");
+    if (decimalPartNumStr) {
+        displayCalculator.textContent = parseFloat(integerPartNumStr).toLocaleString() + "." + decimalPartNumStr;
+        return;
+    }
+    displayCalculator.textContent = parseFloat(integerPartNumStr).toLocaleString();
 }
 
 const handleNumberClick = (numberString) => {
